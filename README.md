@@ -107,6 +107,12 @@ So, **to use electron's Wayland rendering** edit `/usr/share/applciations/google
 
 See full [CHANGELOG](./CHANGELOG.md).
 
+### 5.39.24-1
+
+Bump to electron 39.0 as maintainance chore.
+
+Add option (in View menu) to disable use of Tray icon, as it's becoming useless (and painful) in some DE, for instance Cosmic.
+
 ### 5.29.23-1
 
 bump electron to 29 with better wayland support. Define `ELECTRON_OZONE_PLATFORM_HINT=auto` to take advantage of it. Values can be `auto`, `wayland`, `x11`, with `auto` being a reasonable default.

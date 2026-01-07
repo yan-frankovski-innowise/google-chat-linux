@@ -1,6 +1,6 @@
 {
   "name": "google-chat-linux",
-  "version": "5.29.23-1",
+  "version": "5.39.24-1",
   "description": "Unofficial alternative Google Chat desktop app",
   "main": "src/index.js",
   "scripts": {
@@ -53,14 +53,14 @@
     ]
   },
   "engines": {
-    "node": "18.14.0",
+    "node": "22.19.0",
     "npm": ">=8.15.0"
   },
   "dependencies": {
     "electron-context-menu": "^3.5.0"
   },
   "devDependencies": {
-    "electron": "29.0.0",
+    "electron": "39.0.0",
     "electron-builder": "^24.4.0"
   }
 }

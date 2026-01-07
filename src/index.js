@@ -28,7 +28,7 @@ const initialize = () => {
         contextMenu = ContextMenu.initializeContextMenu(mainWindow);
     }
 
-    if (!systemTrayIcon) {
+    if (!systemTrayIcon && config.useTray) {
         systemTrayIcon = TrayManager.initializeTray(mainWindow);
     }
 

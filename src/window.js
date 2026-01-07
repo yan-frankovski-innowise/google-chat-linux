@@ -58,6 +58,9 @@ const clean_url = (url) => {
         })
         url = decodeURIComponent(url);
         //console.log("cleaning url step 2 "+url);
+
+        if (url=="about:blank") url = "http://about:blank"
+
         console.log("cleaning url from " + init_url + " to " + url);
         return url;
     }
@@ -126,6 +129,12 @@ const onKeepMinimizedClicked = (keep) => {
 
 const onStartHiddenClicked = () => {
     startHidden = !startHidden;
+    app.relaunch();
+    onQuitEntryClicked();
+}
+
+const onUseTrayIconClicked = () => {
+    useTray = !useTray;
     app.relaunch();
     onQuitEntryClicked();
 }
@@ -247,17 +256,27 @@ const downloadUrl = (url) => {
     return isDownloadAttachment;
 }
 
+const meetOrHuddleUrl = (url) => {
+    var isMeetOrHuddle =  (url.startsWith("https://meet.google.com/") && url.indexOf("MeetingsUi")>-1) || (url.startsWith("https://play.google.com/"));
+    console.log("is it a meet url : " + isMeetOrHuddle);
+    console.log(url)
+    return isMeetOrHuddle;
+}
+
 const handleRedirect = (e, url) => {
     // return true if redirect was trapped here, else false, in order to continue with 'default' behaviour (useful for download attachements)
     //
     // leave redirect for double auth mechanism, trap crappy blocked url link
-    // console.log(url)
-    // console.log(e)
+    console.log(url)
+    console.log(e)
     var handled = false;
+    // if (meetOrHuddleUrl(url)){
+    //     handled = false;
+    // } else 
     if (e !== undefined && url.includes("about:blank")) {
         handled = true;
         e.preventDefault();
-    } else if (!downloadUrl(url) && !openUrlInside && !doNotRedirect(url)) {
+    } else if ( url.includes("about:blank") || (!downloadUrl(url) && !openUrlInside && !doNotRedirect(url))) {
         handled = true;
         url = clean_url(url);
         if (process.platform === 'linux' && getUseXdgOpen()) {
@@ -303,8 +322,15 @@ const initializeWindow = (config) => {
     useXdgOpen = (config && config.useXdgOpen);
     thirdPartyAuthLoginMode = (config && config.thirdPartyAuthLoginMode);
     iconTheme = (config && config.iconTheme)
+    useTray = (config && config.useTray)
     mainWindow = new BrowserWindow(bwOptions);
 
+    //mainWindow.webContents.openDevTools();
+    // if(process.platform === "linux" && ! config.keepMinimized){
+    //     console.log("yeah really ?")
+    //     mainWindow?.hide() //This is enough to hide the dock icon on `linux`
+    //     if (! config.startHidden) mainWindow.show()
+    // }
     let url = getURL(process.argv)
     if (!url) {
         url = extraOptions.url
@@ -347,6 +373,7 @@ const initializeWindow = (config) => {
             configsData.useXdgOpen = useXdgOpen;
             configsData.thirdPartyAuthLoginMode = thirdPartyAuthLoginMode;
             configsData.iconTheme = iconTheme;
+            configsData.useTray = useTray;
             ConfigManager.updateConfigs(configsData);
         } else {
             e.preventDefault();
@@ -383,6 +410,10 @@ const getShowTick = () => {
 
 const getStartHiddenTick = () => {
     return startHidden ? '☑' : '☐';
+}
+
+const getUseTrayIconTick = () => {
+    return useTray ? '☑' : '☐';
 }
 
 const getOpenUrlInsideTick = () => {
@@ -458,6 +489,11 @@ const viewSubMenu = () => {
                 }
             }, {
                 type: 'separator'
+            }, {
+                label: getUseTrayIconTick() + ' Use Tray icon (restart)',
+                click: () => {
+                    onUseTrayIconClicked();
+                }
             }, {
                 label: 'Tray icon theme (restart)',
             }, {

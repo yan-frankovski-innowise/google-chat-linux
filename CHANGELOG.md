@@ -3,6 +3,11 @@
 An electron-base client for Google Hangouts Chat, since Google didn't see fit to provide one.
 
 ## CHANGELOG
+### 5.39.24-1
+
+Bump to electron 39.0 as maintainance chore.
+
+Add option (in View menu) to disable use of Tray icon, as it's becoming useless (and painful) in some DE, for instance Cosmic.
 
 ### 5.29.23-1
 
