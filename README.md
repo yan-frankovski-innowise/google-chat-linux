@@ -1,3 +1,13 @@
+# Alt Fork
+
+Literally the same app but with `Alt` key menu turned off. It gets into way when you are using multiple languages and use `Shift + Alt` key  combo to switch layouts.
+
+## Pacman build
+
+Since original repo seems to lacks `pacman` packaging setup, so i added it for Arch based distro [Manjaro/Arch pacman](#manjaroarch-pacman)
+
+# Original readme
+
 Tray has changed ... again
 https://github.com/electron/electron/pull/36472
 https://github.com/electron/electron/pull/36333
@@ -305,7 +315,9 @@ export ELECTRON_DISABLE_SANDBOX=true; export NODE_OPTIONS="--no-force-async-hook
 
 ### Arch (Manjaro, Anarchy)
 
-a package 'google-chat-linux-bin' is availabe on AUR for Arch Linux and derivatives.
+A package `google-chat-linux-bin` is available on AUR for Arch Linux and derivatives. 
+
+To build manually, see [Manjaro/Arch pacman](#manjaroarch-pacman) below.
 
 ### Debian based (Ubuntu, Mint ...)
 
@@ -343,6 +355,26 @@ then `npm run dist`
 
 The package will be built in `dist` subfolder. AppImage is fine for instance on Asahi Linux on Apple silicium.
 
+## Manjaro/Arch (pacman)
+
+To build a pacman package locally:
+
+1. Install build dependencies:
+   ```sh
+   sudo pacman -S bsdtar libxcrypt-compat
+   ```
+
+2. Build the package:
+   ```sh
+   npm run dist:pacman
+   ```
+
+3. Install:
+   ```sh
+   sudo pacman -U dist/google-chat-linux-alt-fork-5.39.24.pacman
+   ```
+
+The package installs to `/opt/google-chat-linux-alt-fork/`.
 
 ### manually build a deb package
 

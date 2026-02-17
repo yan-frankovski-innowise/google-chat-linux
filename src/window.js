@@ -578,7 +578,7 @@ const buildMenu = () => {
         }
     ]
     const menu = Menu.buildFromTemplate(template);
-    Menu.setApplicationMenu(menu);
+    Menu.setApplicationMenu(null);
 }
 
 module.exports = {

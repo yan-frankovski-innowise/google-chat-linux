@@ -1,32 +1,39 @@
 {
   "name": "google-chat-linux",
-  "version": "5.39.24-1",
-  "description": "Unofficial alternative Google Chat desktop app",
+  "version": "5.39.24",
+  "description": "Unofficial alternative Google Chat desktop app (Alt menu disabled)",
   "main": "src/index.js",
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",
     "dist:deb": "electron-builder --linux=deb",
+    "dist:pacman": "electron-builder --linux=pacman",
     "dist:rpm": "electron-builder --linux=rpm",
     "container:setup": "container_engine=${CONTAINER_ENGINE:-$(type -P podman || type -P docker)} && ${container_engine} build -t google-chat-linux-containerbuild containerbuild || >&2 echo 'Install podman or docker container engine to run this command.' && exit 1",
     "container:build": "scripts/in-container.sh npm install && scripts/in-container.sh npm run dist",
     "container:build:deb": "scripts/in-container.sh npm install && scripts/in-container.sh npm run dist:deb",
     "container:build:rpm": "scripts/in-container.sh npm install && scripts/in-container.sh npm run dist:rpm"
   },
-  "repository": "github.com:squalou/google-chat-linux.git",
-  "homepage": "https://github.com/squalou/google-chat-linux",
+  "repository": "github.com:yan-frankovski-innowise/google-chat-linux.git",
+  "homepage": "https://github.com/yan-frankovski-innowise/google-chat-linux",
   "author": "Roberto Fasciolo <rob@robyf.net> (https://www.robyf.net/)",
   "license": "WTFPL",
   "build": {
-    "appId": "Google Chat Linux",
+    "appId": "Google Chat Linux (Alt fork)",
+    "productName": "google-chat-linux-alt-fork",
+    "artifactName": "${productName}-${version}.${ext}",
     "linux": {
       "desktop": {
-        "Name": "Google Chat Alt",
+        "Name": "Google Chat Alt Fork",
         "MimeType": "x-scheme-handler/gchat;"
       },
       "category": "Network;InstantMessaging",
-      "target": "deb"
+      "target": ["deb", "pacman", "AppImage"]
+    },
+    "pacman": {
+      "packageName": "google-chat-linux-alt-fork",
+      "depends": ["xdg-desktop-portal"]
     },
     "deb": {
       "depends": [
